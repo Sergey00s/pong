@@ -1,60 +1,37 @@
 import Request from "./Request.js";
 import Game from "./Game.js";
 
-var backendurl = "http:159.89.0.237//:2700";
+var backendurl = "http://pongapi.ftpong.duckdns.org";
 var endpoint = "/api"
 
 
 var req = new Request(backendurl + endpoint);
-
-var gamecrt = document.getElementById("gamecrt");
-var joingame = document.getElementById("joingame");
-
 
 
 var canvas = document.getElementById("pongCanvas");
 
 var game = new Game(canvas, backendurl + endpoint);
 
-joingame.addEventListener("click", function(){
+var queryString = window.location.search;
+var queryString = queryString.substring(1);
+var serachParams = new URLSearchParams(queryString);
 
-	var gameid = document.getElementById("gameidj");
-	var gamepass = document.getElementById("passwordj");
-	var player = document.getElementById("player");
-	var playerpass = document.getElementById("ppass");
+const gameid = serachParams.get("gameid");
+const gamepass = serachParams.get("gamepass");
+const player = serachParams.get("player");
+const playerpass = serachParams.get("playerpass");
 
-    var integer_val = parseInt(player.value);
-    game.join_game(gameid.value, gamepass.value, integer_val, playerpass.value).then(function(data){
-
-        console.log(data);
-        game.set_parameters(gameid.value, gamepass.value, integer_val, playerpass.value);
-            
-    });
- 
-});
+console.log(gameid);
+console.log(gamepass);
+console.log(player);
+console.log(playerpass);
 
 
-gamecrt.addEventListener("click", function(){
-	
-	var gamepass = document.getElementById("password");
-	var gameid = document.getElementById("gameid");
-	var p1pass = document.getElementById("p1pass");
-	var p2pass = document.getElementById("p2pass");
 
-	var data = {gameid: gameid.value, password: gamepass.value, private: true, 
-		password_p1: p1pass.value, password_p2: p2pass.value
-	};
-	req.post("/new_game", data).then(function(response){
-		if(response.ok){
-			return response.json();
-		}else{
-			throw new Error("HTTP error " + response.status);
-		}
-	}).then(function(data){
-		console.log(data);
-	}).catch(function(error){
-		console.log(error);
-	});
-});
+if (gameid != null && gamepass != null && player != null && playerpass != null) {
+	game.set_parameters(gameid, gamepass, player, playerpass);
+	game.join_game(gameid, gamepass, player, playerpass);
 
-
+} else {
+	window.location.href = "error.html";
+}

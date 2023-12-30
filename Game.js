@@ -1,7 +1,7 @@
 import {Player, Ball} from "./Player.js";
 import Request from "./Request.js";
 
-
+var error_count = 0;
 
 class Game{
 	constructor(canvas, url)
@@ -20,8 +20,8 @@ class Game{
 		this.worldheight = 1000;
 		this._checked = true;
 		this.interval = null;
+		this.timeout = 0;
 		document.addEventListener("keydown", this.keydown.bind(this));
-
 		window.requestAnimationFrame(this.run.bind(this));
 	}
 
@@ -29,6 +29,7 @@ class Game{
 	{
 		if (this.owner_is != null && this.state != "gameover")
 		{
+	
 			if (e.key == "w")
 			{
 				this.move(this.parameters.gameid, this.parameters.gamepass, this.parameters.player, this.parameters.playerpass, "up");
@@ -68,7 +69,7 @@ class Game{
 	{
 		if (this._checked && this.parameters.gameid != null && this.parameters.gamepass != null && this.parameters.player != null && this.parameters.playerpass != null)
 		{
-			this.interval = setInterval(this.info_update.bind(this), 10);
+			this.interval = setInterval(this.info_update.bind(this), 15);
 			this._checked = false;
 		}
 		if (this.state == "gameover")
@@ -144,6 +145,11 @@ class Game{
 				if (response.ok) {
 					return response.json();
 				}else{
+					error_count++;
+					if (error_count > 250)
+					{
+						//window.location.href = "error.html";
+					}
 					throw new Error("HTTP error " + response.status);
 				}
 			})
@@ -151,6 +157,11 @@ class Game{
 				resolve(data);
 			})
 			.catch(function(error) {
+				error_count++;
+				if (error_count > 250)
+				{
+					window.location.href = "error.html";
+				}
 				console.log(error);
 				reject(error);
 			});
@@ -167,6 +178,11 @@ class Game{
 			  if (response.ok) {
 				return response.json();
 			  } else {
+				error_count++;
+				if (error_count > 250)
+				{
+					//window.location.href = "error.html";
+				}
 				throw new Error("HTTP error " + response.status);
 			  }
 			})
@@ -174,6 +190,12 @@ class Game{
 			  resolve(data);
 			})
 			.catch(function(error) {
+				
+				error_count++;
+				if (error_count > 250)
+				{
+					//window.location.href = "error.html";
+				}
 			  console.log(error);
 			  reject(error);
 			});
