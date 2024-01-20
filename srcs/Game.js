@@ -32,6 +32,7 @@ class Game{
 	
 			if (e.key == "w")
 			{
+				console.log(this.parameters.gameid, this.parameters.gamepass, this.parameters.player, this.parameters.playerpass, "up");
 				this.move(this.parameters.gameid, this.parameters.gamepass, this.parameters.player, this.parameters.playerpass, "up");
 				console.log("w");
 			}
