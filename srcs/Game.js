@@ -49,7 +49,6 @@ class Game{
 
 			this.p1.x = data.p1_pos[0];
 			this.p1.y = data.p1_pos[1];
-			console.log("update = ", data.p1_pos);
 			this.p2.x = data.p2_pos[0];
 			this.p2.y = data.p2_pos[1];
 			this.ball.x = data.ball_pos[0];
@@ -71,7 +70,7 @@ class Game{
 	{
 		if (this._checked && this.parameters.gameid != null && this.parameters.gamepass != null && this.parameters.player != null && this.parameters.playerpass != null)
 		{
-			this.interval = setInterval(this.info_update.bind(this), 15);
+			this.interval = setInterval(this.info_update.bind(this), 30);
 			this._checked = false;
 		}
 		if (this.state == "gameover")
