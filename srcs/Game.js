@@ -49,6 +49,7 @@ class Game{
 
 			this.p1.x = data.p1_pos[0];
 			this.p1.y = data.p1_pos[1];
+			console.log("update = ", data.p1_pos);
 			this.p2.x = data.p2_pos[0];
 			this.p2.y = data.p2_pos[1];
 			this.ball.x = data.ball_pos[0];
